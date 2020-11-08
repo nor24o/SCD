@@ -12,9 +12,9 @@ public class TicTacToeRun
 
         // if no command line args
         if ( args.length == 0 )
-            application = new TicTacToeClient( "127.0.0.1" ); // localhost
+            application = new TicTacToeClient( "86.126.227.141","12345" ); // localhost
         else
-            application = new TicTacToeClient( args[ 0 ] ); // use args
+            application = new TicTacToeClient( args[ 0 ] ,args[1] ); // use args
 
         application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     } // end main

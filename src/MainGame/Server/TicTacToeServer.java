@@ -35,14 +35,16 @@ class TicTacToeServer extends JFrame {
     private Condition otherPlayerTurn; // to wait for other player's turn
     private InetAddress addr;
     private int port_vall;
-    private int W_Width=300;
-    private int W_Heigth=400;
+    private int W_Width = 300;
+    private int W_Heigth = 400;
     private String ip;
+    private String reponsetoclient="";
+
     // set up tic-tac-toe server and GUI that displays messages
-    TicTacToeServer(String ip,int port_vall) throws UnknownHostException {
+    TicTacToeServer(String ip, int port_vall) throws UnknownHostException {
         super("Tic-Tac-Toe Server"); // set title of window
-        this.port_vall=port_vall;
-        this.ip=ip;
+        this.port_vall = port_vall;
+        this.ip = ip;
 
 // Cream Thread pentru ambi playeri
         runGame = Executors.newFixedThreadPool(2);
@@ -75,19 +77,19 @@ class TicTacToeServer extends JFrame {
         setVisible(true); // show window
 
         outputArea = new JTextArea(); // create JTextArea for output
-        outputArea.setBounds(4,25,300,W_Heigth-25);
+        outputArea.setBounds(4, 25, 300, W_Heigth - 25);
         outputArea.setEditable(false);
         add(outputArea);
 
         outputArea.setText("Server awaiting connections\n");
-        String out_p="on port : "+port_vall+"\n";
+        String out_p = "on port : " + port_vall + "\n";
         outputArea.append(out_p);
 
-         addr = InetAddress.getByName(ip);
-
+        addr = InetAddress.getByName(ip);
+        setResizable(false);
         try {
 
-            server = new ServerSocket(port_vall, 2,addr); // set up ServerSocket
+            server = new ServerSocket(port_vall, 2, addr); // set up ServerSocket
         } // end try
         catch (IOException ioException) {
             ioException.printStackTrace();
@@ -95,12 +97,11 @@ class TicTacToeServer extends JFrame {
         } // end catch
 
 
-
-
     } // end TicTacToeServer constructor
+
     // Asteptam 2 conectiuni
     void execute() {
-    // Asteptam dup ambi pleyeri
+        // Asteptam dup ambi pleyeri
         for (int i = 0; i < players.length; i++) {
             try // wait for connection, create Player, start runnable
             {
@@ -185,8 +186,79 @@ class TicTacToeServer extends JFrame {
 
     // place code in this method to determine whether game over
     private boolean isGameOver() {
+        if(PlayerOWinCheck()){
+            reponsetoclient="Player O WIns";
+            System.out.println("Player O WIns");
+            return true;
+        }
+        if(PlayerXWinCheck()){
+            reponsetoclient="Player X WIns";
+            System.out.println("Player X WIns");
+            return true;
+
+        }
+        else
         return false; // this is left as an exercise
     } // end method isGameOver
+
+
+    public boolean PlayerOWinCheck() {
+        if ((board[0].equals(MARKS[PLAYER_O])) && (board[1].equals(MARKS[PLAYER_O])) && (board[1].equals(MARKS[PLAYER_O])) && (board[2].equals(MARKS[PLAYER_O])))
+            return true;
+        else if ((board[3].equals(MARKS[PLAYER_O])) && (board[4].equals(MARKS[PLAYER_O])) && (board[4].equals(MARKS[PLAYER_O])) && (board[5].equals(MARKS[PLAYER_O])))
+            return true;
+        else if ((board[6].equals(MARKS[PLAYER_O])) && (board[7].equals(MARKS[PLAYER_O])) && (board[7].equals(MARKS[PLAYER_O])) && (board[8].equals(MARKS[PLAYER_O])))
+            return true;
+
+        if ((board[0].equals(MARKS[PLAYER_O])) && (board[3].equals(MARKS[PLAYER_O])) && (board[3].equals(MARKS[PLAYER_O])) && (board[6].equals(MARKS[PLAYER_O])))
+            return true;
+        else if ((board[1].equals(MARKS[PLAYER_O])) && (board[4].equals(MARKS[PLAYER_O])) && (board[4].equals(MARKS[PLAYER_O])) && (board[7].equals(MARKS[PLAYER_O])))
+            return true;
+        else if ((board[2].equals(MARKS[PLAYER_O])) && (board[5].equals(MARKS[PLAYER_O])) && (board[5].equals(MARKS[PLAYER_O])) && (board[8].equals(MARKS[PLAYER_O])))
+            return true;
+
+        if ((board[0].equals(MARKS[PLAYER_O])) && (board[4].equals(MARKS[PLAYER_O])) && (board[4].equals(MARKS[PLAYER_O])) && (board[8].equals(MARKS[PLAYER_O])))
+            return true;
+        else if ((board[2].equals(MARKS[PLAYER_O])) && (board[4].equals(MARKS[PLAYER_O])) && (board[4].equals(MARKS[PLAYER_O])) && (board[6].equals(MARKS[PLAYER_O])))
+            return true;
+        else
+            return false;
+    }
+
+
+
+    public boolean PlayerXWinCheck() {
+
+        if((board[0].equals(MARKS[PLAYER_X]))&&(board[1].equals(MARKS[PLAYER_X]))&&(board[1].equals(MARKS[PLAYER_X]))&&(board[2].equals(MARKS[PLAYER_X])))
+            return true;
+        else if ((board[3].equals(MARKS[PLAYER_X]))&&(board[4].equals(MARKS[PLAYER_X]))&&(board[4].equals(MARKS[PLAYER_X]))&&(board[5].equals(MARKS[PLAYER_X])))
+            return true;
+        else if ((board[6].equals(MARKS[PLAYER_X]))&&(board[7].equals(MARKS[PLAYER_X]))&&(board[7].equals(MARKS[PLAYER_X]))&&(board[8].equals(MARKS[PLAYER_X])))
+            return true;
+
+        if((board[0].equals(MARKS[PLAYER_X]))&&(board[3].equals(MARKS[PLAYER_X]))&&(board[3].equals(MARKS[PLAYER_X]))&&(board[6].equals(MARKS[PLAYER_X])))
+            return true;
+        else if ((board[1].equals(MARKS[PLAYER_X]))&&(board[4].equals(MARKS[PLAYER_X]))&&(board[4].equals(MARKS[PLAYER_X]))&&(board[7].equals(MARKS[PLAYER_X])))
+            return true;
+        else if ((board[2].equals(MARKS[PLAYER_X]))&&(board[5].equals(MARKS[PLAYER_X]))&&(board[5].equals(MARKS[PLAYER_X]))&&(board[8].equals(MARKS[PLAYER_X])))
+            return true;
+
+        if((board[0].equals(MARKS[PLAYER_X]))&&(board[4].equals(MARKS[PLAYER_X]))&&(board[4].equals(MARKS[PLAYER_X]))&&(board[8].equals(MARKS[PLAYER_X])))
+            return true;
+        else if ((board[2].equals(MARKS[PLAYER_X]))&&(board[4].equals(MARKS[PLAYER_X]))&&(board[4].equals(MARKS[PLAYER_X]))&&(board[6].equals(MARKS[PLAYER_X])))
+            return true;
+        else
+            return false;
+
+
+
+
+    }
+
+
+
+
+
 
     // private inner class Player manages each Player as a runnable
     private class Player implements Runnable {
@@ -231,8 +303,7 @@ class TicTacToeServer extends JFrame {
 
                 // if player X, wait for another player to arrive
                 if (playerNumber == PLAYER_X) {
-                    output.format("%s\n%s", "Player X connected",
-                            "Waiting for another player\n");
+                    output.format("%s\n%s", "Player X connected", "Waiting for another player\n");
                     output.flush(); // flush output
 
                     gameLock.lock(); // lock game to wait for second player
@@ -267,9 +338,20 @@ class TicTacToeServer extends JFrame {
 
                     // check for valid move
                     if (validateAndMove(location, playerNumber)) {
-                        displayMessage("\nlocation: " + location +" Player : "+playerNumber);
-                        output.format("Valid move.\n"); // notify client
-                        output.flush(); // flush output
+                        if(!PlayerOWinCheck()&&!PlayerXWinCheck()) {
+                            displayMessage("\nlocation: " + location + " Player : " + playerNumber);
+                            output.format("Valid move.\n"); // notify client
+                            output.flush(); // flush output
+                        }
+                        else{
+                            output.format("Valid move.\n"); // notify client
+                            output.flush(); // flush output
+                            displayMessage("\n"+reponsetoclient );
+                            output.format(reponsetoclient+"\n"); // notify client
+                            output.flush(); // flush output
+                            output.format(reponsetoclient+"\n"); // notify client
+                            output.flush(); // flush output
+                        }
                     } // end if
                     else // move was invalid
                     {

@@ -9,7 +9,7 @@ import java.net.UnknownHostException;
 public class TicTacToeServerTest
     {
         public static void main( String args[] ) throws UnknownHostException {
-            TicTacToeServer application = new TicTacToeServer("192.168.100.99",12348);
+            TicTacToeServer application = new TicTacToeServer("192.168.100.99",12345);
             application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
             application.execute();
         } // end main
