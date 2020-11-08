@@ -95,6 +95,7 @@ public class SumatorDiferentiatorFuzzy {
         return new TwoXTwoTable(ruleTable1, ruleTable2);
     }
 
+
     public static void main(String[] args) {
         double w1 = 1;
         double w2 = 1;
